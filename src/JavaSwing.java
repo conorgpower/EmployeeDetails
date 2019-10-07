@@ -4,7 +4,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class JavaSwing extends JFrame implements ActionListener {
 	JLabel titleLabel;
@@ -79,6 +78,12 @@ public class JavaSwing extends JFrame implements ActionListener {
 		
 		// Add action listeners to buttons
 		addButton.addActionListener(this);
+		deleteButton.addActionListener(this);
+		updateButton.addActionListener(this);
+		previousButton.addActionListener(this);
+		nextButton.addActionListener(this);
+		clearButton.addActionListener(this);
+		searchButton.addActionListener(this);
 		
 		// Set bounds for buttons
 		addButton.setBounds(110, 300, 100, 40);
@@ -113,37 +118,39 @@ public class JavaSwing extends JFrame implements ActionListener {
 		add(search);
 	}
 	
-//	public void clear() {
-//		
-//	}
+	public void clear() {
+		socialSecurityNumber.setText("");
+		dateOfBirth.setText("");
+		firstName.setText("");
+		surname.setText("");
+		salary.setText("");
+		gender.setText("");
+		search.setText("");
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		JDBC db = new JDBC();
 		JButton button = (JButton) e.getSource();
-		int socialSecurityNumberInt = Integer.parseInt(socialSecurityNumber.getText());
-		int salaryInt = Integer.parseInt(salary.getText());
 		if(button == addButton) {
+			int socialSecurityNumberInt = Integer.parseInt(socialSecurityNumber.getText());
+			int salaryInt = Integer.parseInt(salary.getText());
 			db.addEmployee(socialSecurityNumberInt, dateOfBirth.getText(), firstName.getText(), surname.getText(), salaryInt, gender.getText());
 		} else if (button == deleteButton) {
+			int socialSecurityNumberInt = Integer.parseInt(socialSecurityNumber.getText());
 			db.deleteEmployee(socialSecurityNumberInt);
-//		} else if (button == updateButton) {
-//			db.updateEmployee(socialSecurityNumberInt, dateOfBirth.getText(), firstName.getText(), surname.getText(), salaryInt, gender.getText());
+		} else if (button == updateButton) {
+			int socialSecurityNumberInt = Integer.parseInt(socialSecurityNumber.getText());
+			int salaryInt = Integer.parseInt(salary.getText());
+			db.updateEmployee(socialSecurityNumberInt, dateOfBirth.getText(), firstName.getText(), surname.getText(), salaryInt, gender.getText());
 		} else if (button == clearButton) {
-			socialSecurityNumber.setText("");
-			dateOfBirth.setText("");
-			firstName.setText("");
-			surname.setText("");
-			salary.setText("");
-			gender.setText("");
-			search.setText("");
-			SwingUtilities.updateComponentTreeUI(this);
+			clear();
 //		} else if (button == previousButton) {
 //			db.previousEmployee();
 		} else if (button == nextButton) {
 			db.nextEmployee();
-//		} else if (button == searchButton) {
-//			db.searchEmployee(surname.getText());
+		} else if (button == searchButton) {
+			db.searchEmployee(search.getText());
 		} else {
 			System.out.println("ERROR!! Action Listener Broken!");
 		}

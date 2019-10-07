@@ -66,13 +66,13 @@ public class JDBC {
 					+ "surname,"
 					+ "salary,"
 					+ "gender)"
-					+ " VALUES "
-					+ "(" + socialSecurityNumber + ","
-					+ "'" + dateOfBirth + "',"
-					+ "'" + firstName + "',"
-					+ "'" + surname + "',"
-					+ salary + ","
-					+ "'" + gender + "')");
+					+ " VALUES ("
+					+ socialSecurityNumber + ", '"
+					+ dateOfBirth + "', '"
+					+ firstName + "', '"
+					+ surname + "',"
+					+ salary + ", '"
+					+ gender + "')");
 			s.close();
 			System.out.println("Row inserted");
 		} catch (SQLException e) {
@@ -81,9 +81,54 @@ public class JDBC {
 		}
 	}
 	
+	public void deleteEmployee(int socialSecurityNumber) {
+		try {
+			Statement s = this.getConnection().createStatement();
+			s.executeUpdate("DELETE FROM employee WHERE " 
+				+ "social_security_number = " + socialSecurityNumber);
+			s.close();
+			System.out.println("Row deleted");
+		} catch (SQLException e) {
+			System.err.println ("Error message: "+ e.getMessage());
+			System.err.println ("Error number: " + e.getErrorCode());
+		}
+	}
+	
+	public void updateEmployee(int socialSecurityNumber, String dateOfBirth, String firstName, String surname, int salary, String gender) {
+		try {
+			Statement s = this.getConnection().createStatement();
+			s.executeUpdate("UPDATE employee SET "
+				+ "social_security_number = " + socialSecurityNumber
+				+ ", date_of_birth = '" + dateOfBirth
+				+ "', first_name = '"+ firstName
+				+ "', surname = '" + surname
+				+ "', salary = " + salary
+				+ ", gender = '" + gender
+				+ "' WHERE social_security_number = " + socialSecurityNumber );
+			s.close();
+			System.out.println("Row updated");
+		} catch (SQLException e) {
+			System.err.println ("Error message: "+ e.getMessage());
+			System.err.println ("Error number: " + e.getErrorCode());
+		}
+	}
+	
+	public void searchEmployee(String surname) {
+		try {
+			Statement s = this.getConnection().createStatement();
+			s.executeQuery("SELECT * FROM employee WHERE surname = " + surname);
+			ResultSet rs = s.getResultSet();
+			System.out.println ("Row was retrieved of id:" + rs.getInt("id"));
+			rs.close();
+			s.close();
+		} catch (SQLException e) {
+			System.err.println ("Error message: "+ e.getMessage());
+			System.err.println ("Error number: " + e.getErrorCode());
+		}
+	}
+	
 	public void nextEmployee() {
 		try {
-			System.out.println ("1");
 			Statement s = this.getConnection().createStatement();
 			s.executeQuery("SELECT id FROM employee");
 			ResultSet rs = s.getResultSet();

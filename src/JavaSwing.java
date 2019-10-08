@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class JavaSwing extends JFrame implements ActionListener {
+	JDBC db = new JDBC();
+
 	JLabel titleLabel;
 	JLabel socialSecurityNumberLabel;
 	JLabel dateOfBirthLabel;
@@ -128,9 +130,13 @@ public class JavaSwing extends JFrame implements ActionListener {
 		search.setText("");
 	}
 	
+	public void firstRun() {
+		db.run();
+		db.setFirstRun(false);
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		JDBC db = new JDBC();
 		JButton button = (JButton) e.getSource();
 		if(button == addButton) {
 			int socialSecurityNumberInt = Integer.parseInt(socialSecurityNumber.getText());

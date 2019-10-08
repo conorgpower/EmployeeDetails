@@ -5,6 +5,6 @@ public class Main {
 		app.setSize(650,500);
 		app.setLayout(null);  
 		app.setVisible(true);
+		app.firstRun();
 	}
 }
-
